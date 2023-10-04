@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallpaper_app/controller/Wallpaper_controller.dart';
 
+import '../../controller/Favourite_Controller.dart';
 import '../../utils/MyRoutes.dart';
 
 class CategoriesDetailPage extends StatelessWidget {
@@ -33,9 +34,39 @@ class CategoriesDetailPage extends StatelessWidget {
                       arguments: pro.allCategoryWallpaper[index]);
                 },
                 child: Container(
-                  child: Image.network(
-                    pro.allCategoryWallpaper[index].largeImageURL,
-                    fit: BoxFit.cover,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey.withOpacity(0.2),
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        pro.allCategoryWallpaper[index].largeImageURL,
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Consumer<Favourite_Controller>(
+                      builder: (context, p, _) {
+                        return IconButton(
+                          onPressed: () {
+                            p.addWallpaper(
+                                wallpaper: pro.allCategoryWallpaper[index]);
+                          },
+                          icon: Icon(
+                            ((p.checkFavourite(
+                                    wallpaper: pro.allCategoryWallpaper[index]))
+                                ? Icons.favorite_rounded
+                                : Icons.favorite_border),
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               );

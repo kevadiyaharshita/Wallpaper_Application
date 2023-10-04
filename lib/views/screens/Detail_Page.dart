@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:wallpaper_app/controller/ButtonController.dart';
+import 'package:wallpaper_app/controller/Favourite_Controller.dart';
 import 'package:wallpaper_app/modals/Wallpaper_Modal.dart';
 import 'package:wallpaper_app/utils/MyRoutes.dart';
 
@@ -10,7 +11,7 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Wallpaper wallpaer =
+    Wallpaper wallpaper =
         ModalRoute.of(context)!.settings.arguments as Wallpaper;
     Size s = MediaQuery.of(context).size;
     double h = s.height;
@@ -21,7 +22,7 @@ class DetailPage extends StatelessWidget {
       width: w,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(wallpaer.largeImageURL),
+          image: NetworkImage(wallpaper.largeImageURL),
           fit: BoxFit.cover,
         ),
       ),
@@ -54,7 +55,7 @@ class DetailPage extends StatelessWidget {
                     splashColor: Colors.grey,
                     onTap: () {
                       Navigator.of(context).pushNamed(MyRoutes.homePahePreview,
-                          arguments: wallpaer);
+                          arguments: wallpaper);
                     },
                     child: GlassContainer(
                       height: 50,
@@ -80,7 +81,7 @@ class DetailPage extends StatelessWidget {
                     splashColor: Colors.grey,
                     onTap: () {
                       Navigator.of(context).pushNamed(MyRoutes.LockPagePreview,
-                          arguments: wallpaer);
+                          arguments: wallpaper);
                     },
                     child: GlassContainer(
                       height: 50,
@@ -121,26 +122,33 @@ class DetailPage extends StatelessWidget {
                   }),
                   Visibility(
                     visible: Provider.of<ButtonController>(context).getIsOpened,
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        // color: Colors.black54,
-                      ),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(80),
-                        splashColor: Colors.grey,
-                        onTap: () {},
-                        child: GlassContainer(
-                          height: 50,
-                          width: 50,
-                          margin: EdgeInsets.all(5),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            (Icons.favorite_border),
+                    child: Consumer<Favourite_Controller>(
+                        builder: (context, p, _) {
+                      return Ink(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          // color: Colors.black54,
+                        ),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(80),
+                          splashColor: Colors.grey,
+                          onTap: () {
+                            p.addWallpaper(wallpaper: wallpaper);
+                          },
+                          child: GlassContainer(
+                            height: 50,
+                            width: 50,
+                            margin: EdgeInsets.all(5),
+                            alignment: Alignment.center,
+                            child: Icon(
+                              ((p.checkFavourite(wallpaper: wallpaper))
+                                  ? Icons.favorite_rounded
+                                  : Icons.favorite_border),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ),
                   Visibility(
                     visible: Provider.of<ButtonController>(context).getIsOpened,
@@ -155,7 +163,7 @@ class DetailPage extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).pushNamed(
                               MyRoutes.BothScreenPreview,
-                              arguments: wallpaer);
+                              arguments: wallpaper);
                         },
                         child: GlassContainer(
                           height: 50,

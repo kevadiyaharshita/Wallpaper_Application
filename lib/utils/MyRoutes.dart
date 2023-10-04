@@ -6,4 +6,5 @@ class MyRoutes {
   static String homePahePreview = 'HomePagePreviw';
   static String LockPagePreview = 'LockPagePrevie';
   static String BothScreenPreview = 'BothSvreenPreview';
+  static String FavouritePage = 'FavouritePage';
 }

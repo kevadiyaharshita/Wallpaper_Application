@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallpaper_app/controller/ButtonController.dart';
+import 'package:wallpaper_app/controller/Carousel_Controller.dart';
+import 'package:wallpaper_app/controller/Favourite_Controller.dart';
 import 'package:wallpaper_app/controller/PostModalController.dart';
 import 'package:wallpaper_app/controller/Wallpaper_controller.dart';
 import 'package:wallpaper_app/utils/MyRoutes.dart';
+import 'package:wallpaper_app/views/screens/AllFavourite_Page.dart';
 import 'package:wallpaper_app/views/screens/BothPage_Preview.dart';
 import 'package:wallpaper_app/views/screens/Categories_Detail_Page.dart';
 import 'package:wallpaper_app/views/screens/Categories_Page.dart';
@@ -23,6 +26,12 @@ void main() {
       ),
       ChangeNotifierProvider(
         create: (context) => ButtonController(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Carousel_Controller(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Favourite_Controller(),
       ),
     ],
     child: MyApp(),
@@ -50,6 +59,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.homePahePreview: (context) => HomePagePreview(),
         MyRoutes.LockPagePreview: (context) => LockScreenPreview(),
         MyRoutes.BothScreenPreview: (context) => BothScreenPreview(),
+        MyRoutes.FavouritePage: (context) => AllFavouriteWallPaper(),
       },
       // home: HomePage(),
     );

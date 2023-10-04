@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:wallpaper_app/controller/Favourite_Controller.dart';
 import 'package:wallpaper_app/controller/PostModalController.dart';
 import 'package:wallpaper_app/controller/Wallpaper_controller.dart';
 import 'package:wallpaper_app/helpers/api_helper.dart';
@@ -18,9 +19,18 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
+              Navigator.of(context).pushNamed(MyRoutes.FavouritePage);
+            },
+            icon: Icon(Icons.favorite_rounded),
+          ),
+          IconButton(
+            onPressed: () {
               Navigator.of(context).pushNamed(MyRoutes.categoriesPage);
             },
             icon: Icon(Icons.category),
+          ),
+          SizedBox(
+            width: 5,
           ),
         ],
       ),
@@ -82,17 +92,42 @@ class HomePage extends StatelessWidget {
                                   arguments: pro.allWallpaper[index]);
                             },
                             child: Container(
+                              padding: EdgeInsets.all(5),
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    width: 2,
+                                border: Border.all(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    pro.allWallpaper[index].largeImageURL,
                                   ),
-                                  borderRadius: BorderRadius.circular(20),
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        pro.allWallpaper[index].largeImageURL,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Consumer<Favourite_Controller>(
+                                  builder: (context, p, _) {
+                                    return IconButton(
+                                      onPressed: () {
+                                        p.addWallpaper(
+                                            wallpaper: pro.allWallpaper[index]);
+                                      },
+                                      icon: Icon(
+                                        ((p.checkFavourite(
+                                                wallpaper:
+                                                    pro.allWallpaper[index]))
+                                            ? Icons.favorite_rounded
+                                            : Icons.favorite_border),
+                                        color: Colors.white,
+                                        size: 28,
                                       ),
-                                      fit: BoxFit.cover)),
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
                           );
                         },
