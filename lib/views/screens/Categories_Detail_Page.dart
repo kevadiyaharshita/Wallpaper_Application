@@ -58,7 +58,8 @@ class CategoriesDetailPage extends StatelessWidget {
                           },
                           icon: Icon(
                             ((p.checkFavourite(
-                                    wallpaper: pro.allCategoryWallpaper[index]))
+                              wallpaper: pro.allCategoryWallpaper[index],
+                            ))
                                 ? Icons.favorite_rounded
                                 : Icons.favorite_border),
                             color: Colors.white,
