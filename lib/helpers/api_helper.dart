@@ -16,8 +16,9 @@ class ApiHelper {
       'https://pixabay.com/api/?key=39795250-cfa98b8d5a4f1d182aed170a0';
 
   Future<List<Wallpaper>?> getWallPapers({String query = 'Colors'}) async {
-    http.Response response =
-        await http.get(Uri.parse('$wallpaperApi&q=$query'));
+    http.Response response = await http.get(
+      Uri.parse('$wallpaperApi&q=$query'),
+    );
 
     if (response.statusCode == 200) {
       Map data = jsonDecode(response.body);
